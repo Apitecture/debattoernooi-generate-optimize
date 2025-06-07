@@ -19,8 +19,8 @@ Dit script helpt bij het automatiseren van ronde-indeling voor debattoernooien, 
 ## ⚙️ Opbouw
 
 - `index.html`: eenvoudige HTML5-pagina die `main.mjs` laadt.
-- `main.mjs`: JavaScript-module waarin de logica van het algoritme ontwikkeld wordt.
-- `style.css`: eenvoudige opmaak voor leesbaarheid en gebruik.
+- `js/modules/DebatSim.mjs`: JavaScript-module waarin de logica van het algoritme ontwikkeld wordt. Deze module roept andere modules aan voor specifieke functionaliteit.
+- `css/style.css`: eenvoudige opmaak voor leesbaarheid en gebruik.
 
 ## 🚀 Gebruik
 
