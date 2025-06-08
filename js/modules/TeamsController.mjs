@@ -13,7 +13,7 @@ export default function TeamsController() {
         "Vossius Gymnasium",
         "Sint-Janscollege"
     ];
-    const maxTeamsPerSchool = 3;
+    const maxTeamsPerSchool = 8;
 
     function generateTeams() {
         const teams = [];
@@ -27,6 +27,13 @@ export default function TeamsController() {
                 });
             }
         }
+        // Create an extra team if the number of teams is odd
+        // This is to ensure that there is always an even number of teams for pairing in debates
+        if (teams.length % 2) teams.push({
+            name: "Extra Team",
+            school: "DebatUnie",
+            strength: Math.floor(Math.random() * 60) + 40
+        });
         return teams;
     }
 

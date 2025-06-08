@@ -10,8 +10,8 @@ export default function DebatSim() {
         const teamsController = TeamsController();
         const teams = teamsController.generateTeams();
         console.log("Teams generated:", teams);
-        const roundsController = RoundController();
-        const round = roundsController.generateRound(teams);
+        const roundController = RoundController();
+        const round = roundController.generateRound(teams);
         console.log("Round generated:", round);
     }
 
