@@ -21,16 +21,25 @@ export default function GeneticOptimizer(options = {}) {
         return stress;
     }
 
+    function shuffle(array) {
+        const copy = array.slice();
+        for (let i = copy.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+    }
+
     function generateRound(teams) {
         let pool = [];
         while (pool.length <= options.maxPoolSize) {
-            pool.push((Object.keys(teams).map(Number).sort(() => Math.random() - 0.5)).slice(0, teams.length));
+            pool.push(shuffle([...teams.keys()]));
         }
         pool.sort((a, b) => calculateStress(a, teams) - calculateStress(b, teams));
 
         let generation = 0;
         while (generation++ < options.maxGenerations) {
-            console.log(generation, calculateStress(pool[0], teams));
+            //console.log(generation, calculateStress(pool[0], teams));
             pool = pool.slice(0, 1);
             // fill the pool with new individuals, mutated copies of the best individual
             while (pool.length < options.maxPoolSize) {
