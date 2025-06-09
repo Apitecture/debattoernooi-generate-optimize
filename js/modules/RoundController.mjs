@@ -9,11 +9,12 @@ export default function RoundController() {
         return generator.generateRound(teams, previousRounds);
     }
 
-    function playRound(round) {
+    function playRound(round, teams) {
         for (const debate of round) {
             const totalStrength = debate.team1.strength + debate.team2.strength;
             const winner = Math.random() < debate.team1.strength / totalStrength ? "team1" : "team2";
             debate.winner = winner;
+            teams[debate[winner].id].score += 1;
         }
         return round;
     }

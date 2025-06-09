@@ -15,7 +15,7 @@ export default function DebatSim() {
             const roundController = RoundController();
             let round = roundController.generateRound(teams, previousRounds);
             console.log(`Round ${i} generated:`, round);
-            round = roundController.playRound(round);
+            round = roundController.playRound(round, teams);
             console.log(`Round ${i} result:`, round);
             previousRounds.push(round);
         }
