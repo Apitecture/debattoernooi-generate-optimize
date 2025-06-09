@@ -3,10 +3,10 @@ import GeneticOptimizer from './GeneticOptimizer.mjs';
 
 export default function RoundController() {
 
-    function generateRound(teams) {
+    function generateRound(teams, previousRounds = []) {
         //const generator = RandomGenerator();
         const generator = GeneticOptimizer();
-        return generator.generateRound(teams);
+        return generator.generateRound(teams, previousRounds);
     }
 
     function playRound(round) {

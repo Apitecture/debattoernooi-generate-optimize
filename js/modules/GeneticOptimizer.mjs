@@ -2,20 +2,26 @@ export default function GeneticOptimizer(options = {}) {
     options = Object.assign({}, {
         'maxPoolSize': 20,
         'lambda': 0.2,
-        'maxGenerations': 100,
+        'maxGenerations': 200,
         'mutationRate': 0.1
     }, options);
 
-    function calculateStress(individual, teams) {
+    function calculateStress(individual, teams, previousRounds) {
         let stress = 0;
         for (let i = 0; i < individual.length / 2; i++) {
             const team1 = teams[individual[i * 2]];
             const team2 = teams[individual[i * 2 + 1]];
             // difference in strength is stress
-            stress += Math.abs(team1.strength - team2.strength);
+            stress += Math.abs(team1.strength - team2.strength); // fixme: find formula for stress
             // same school is stress
             if (team1.school === team2.school) {
-                stress += 50;
+                stress += 50; // arbitrary value for same school stress
+            }
+            // same team in previous rounds is stress
+            for (const round of previousRounds) {
+                if (round.some(debate => (debate.team1.name === team1.name && debate.team2.name === team2.name) || (debate.team1.name === team2.name && debate.team2.name === team1.name))) {
+                    stress += 50; // arbitrary value for repeated debates
+                }
             }
         }
         return stress;
@@ -30,16 +36,16 @@ export default function GeneticOptimizer(options = {}) {
         return copy;
     }
 
-    function generateRound(teams) {
+    function generateRound(teams, previousRounds = []) {
         let pool = [];
         while (pool.length <= options.maxPoolSize) {
             pool.push(shuffle([...teams.keys()]));
         }
-        pool.sort((a, b) => calculateStress(a, teams) - calculateStress(b, teams));
 
         let generation = 0;
         while (generation++ < options.maxGenerations) {
-            //console.log(generation, calculateStress(pool[0], teams));
+            pool.sort((a, b) => calculateStress(a, teams, previousRounds) - calculateStress(b, teams, previousRounds));
+            console.log(`Generation ${generation}: Best individual stress = ${calculateStress(pool[0], teams, previousRounds)}`);
             pool = pool.slice(0, 1);
             // fill the pool with new individuals, mutated copies of the best individual
             while (pool.length < options.maxPoolSize) {
@@ -54,7 +60,6 @@ export default function GeneticOptimizer(options = {}) {
                 }
                 pool.push(newIndividual);
             }
-            pool.sort((a, b) => calculateStress(a, teams) - calculateStress(b, teams));
         }
         const debates = [];
         for (let i = 0; i < pool[0].length / 2; i++) {

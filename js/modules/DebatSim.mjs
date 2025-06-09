@@ -8,14 +8,17 @@ export default function DebatSim() {
 
     function start() {
         const teamsController = TeamsController();
-        const teams = teamsController.generateTeams(); // Generate random teams with random strengths
+        const teams = teamsController.generateTeams();
         console.log("Teams generated:", teams);
-        const roundController = RoundController();
-        let round = roundController.generateRound(teams); // Generate a round of debates
-        console.log("Round generated:", round);
-        round = roundController.playRound(round); // Play the round of debates
-        console.log("Round result:", round);
-        // Now we need to generate the next round of debates, based on the results of the previous round
+        let previousRounds = [];
+        for (let i = 1; i <= 4; i++) {
+            const roundController = RoundController();
+            let round = roundController.generateRound(teams, previousRounds);
+            console.log(`Round ${i} generated:`, round);
+            round = roundController.playRound(round);
+            console.log(`Round ${i} result:`, round);
+            previousRounds.push(round);
+        }
     }
 
     return {

@@ -1,0 +1,15 @@
+"@context":
+  skos: https://www.w3.org/2009/08/skos-reference/skos.html#
+  rdf: https://www.w3.org/1999/02/22-rdf-syntax-ns#
+  ts: https://www.toernooisysteem.nl/terms#
+
+concepts:
+  - id: ts:friction
+    skos:prefLabel: friction
+    skos:translation:
+      nl: frictie
+    skos:definition: Verzamelnaam voor alle strafpunten toegekend bij aan een match van teams en juryleden in een debat.
+
+  - id: ts:break
+    skos:prefLabel: break
+    skos:definition: Top X teams die door de jury zijn geselecteerd voor de eindronde van een toernooi.
